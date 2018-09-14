@@ -25,7 +25,7 @@
             <Button fx:id="fetchButton" layoutX="398.0" layoutY="244.0" mnemonicParsing="false" onMouseClicked="#fetch" text="Fetch" />
             <Button fx:id="executeButton" layoutX="455.0" layoutY="244.0" mnemonicParsing="false" onMouseClicked="#execute" text="Execute" />
             <Button fx:id="startButton" layoutX="73.0" layoutY="543.0" mnemonicParsing="false" onMouseClicked="#start" prefHeight="25.0" prefWidth="200.0" text="Start" />
-            <Text layoutX="365.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upcodes:" wrappingWidth="89.00000511109829">
+            <Text layoutX="365.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opcodes:" wrappingWidth="89.00000511109829">
                <font>
                   <Font size="20.0" />
                </font>

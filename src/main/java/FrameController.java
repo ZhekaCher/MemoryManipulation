@@ -1,11 +1,5 @@
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -13,9 +7,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.util.Scanner;
-
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class FrameController {
 
@@ -55,15 +48,19 @@ public class FrameController {
     @FXML
     private Text acText;
 
+
+
     private int memoryPosition = 100;
     private int dataPosition = 900;
-    private ArrayList <AnchorPane> memoryList = new ArrayList();
-    private ArrayList <AnchorPane> dataList = new ArrayList();
+    private ArrayList <Struct> memoryList = new ArrayList();
+    private ArrayList <Struct> dataList = new ArrayList();
+    private int currentPos = 0;
 
     @FXML
     void initialize() {
         fetchButton.setDisable(true);
         executeButton.setDisable(true);
+        acText.setText("0000");
     }
 
     @FXML
@@ -99,12 +96,54 @@ public class FrameController {
     void fetch(MouseEvent event) {
         fetchButton.setDisable(true);
         executeButton.setDisable(false);
+        pcText.setText(String.valueOf(memoryList.get(currentPos).address));
+        if (currentPos == 0)
+            acText.setText("0");
+        irText.setText(String.valueOf(memoryList.get(currentPos).value));
+        /*
+        dataAddButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+
+            }
+        });
+        */
     }
 
     @FXML
     void execute(MouseEvent event) {
         executeButton.setDisable(true);
         fetchButton.setDisable(false);
+        try {
+            pcText.setText(String.valueOf(memoryList.get(currentPos + 1).address));
+        }catch (Exception e){
+            e.printStackTrace();
+        }switch (String.valueOf(memoryList.get(currentPos).value).charAt(0)){
+            case '1':
+                acText.setText("0" + String.valueOf(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1))));
+                break;
+            case '2':
+                for (int i = 0; i < dataPane.getChildren().size(); i++) {
+                    if (dataList.get(0).address == Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1))){
+                        dataPane.getChildren().remove(i);
+                        dataPane.getChildren().add(pane(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)), Integer.valueOf(acText.getText())));
+                        dataList.remove(i);
+                        dataList.add(new Struct(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)), Integer.valueOf(acText.getText())));
+                        break;
+                    }
+                }
+                break;
+            case '3':
+                break;
+            case '4':
+                break;
+            case '5':
+                acText.setText(String.valueOf(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)) + Integer.valueOf(acText.getText())));
+                break;
+
+
+        }
+
+        currentPos++;
     }
 
     @FXML
@@ -112,6 +151,7 @@ public class FrameController {
         try {
             if (memoryAddTextField.getText().length() == 4) {
                 memoryPane.getChildren().add(pane(memoryPosition, Integer.valueOf(memoryAddTextField.getText())));
+                memoryList.add(new Struct(memoryPosition, Integer.valueOf(memoryAddTextField.getText())));
                 memoryPosition++;
             }
         }catch (Exception e){
@@ -119,17 +159,20 @@ public class FrameController {
         }
     }
 
+
     @FXML
     void addData(MouseEvent event) {
         try {
             if (dataAddTextField.getText().length() == 4) {
                 dataPane.getChildren().add(pane(dataPosition, Integer.valueOf(dataAddTextField.getText())));
+                dataList.add(new Struct(dataPosition, Integer.valueOf(dataAddTextField.getText())));
                 dataPosition++;
             }
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Your value can't contain non-numerical symbols");
         }
     }
+
 
     AnchorPane pane(int address, int value){
         AnchorPane anchorPane = new AnchorPane();
@@ -149,5 +192,15 @@ public class FrameController {
         anchorPane.getChildren().add(valueText);
 
         return anchorPane;
+    }
+}
+
+class Struct{
+    int address;
+    int value;
+
+    public Struct(int address, int value) {
+        this.address = address;
+        this.value = value;
     }
 }
