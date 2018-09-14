@@ -11,7 +11,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="606.0" prefWidth="909.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FrameController">
    <children>
-      <AnchorPane onMouseClicked="#addData" prefHeight="609.0" prefWidth="909.0">
+      <AnchorPane prefHeight="609.0" prefWidth="909.0">
          <children>
             <TextField fx:id="memoryAddTextField" layoutX="73.0" layoutY="257.0" prefHeight="25.0" prefWidth="79.0" />
             <Button fx:id="memoryAddButton" layoutX="232.0" layoutY="257.0" mnemonicParsing="false" onMouseClicked="#addMemory" text="ADD" />
@@ -40,12 +40,12 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text layoutX="365.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5 - ADD AC FROM MEMORY" wrappingWidth="259.0000051110983">
+            <Text layoutX="361.0" layoutY="473.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4 - SUBSTRACT FROM AC FROM MEMORY" wrappingWidth="386.0000051110983">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <Text layoutX="365.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="7 - " wrappingWidth="89.00000511109829">
+            <Text layoutX="361.0" layoutY="443.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3 - CLEAR AC" wrappingWidth="129.0000051110983">
                <font>
                   <Font size="20.0" />
                </font>
@@ -100,6 +100,11 @@
                   <FlowPane fx:id="dataPane" prefHeight="55.0" prefWidth="183.0" />
                </content>
             </ScrollPane>
+            <Text layoutX="361.0" layoutY="498.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5 - ADD TO AC FROM MEMORY" wrappingWidth="290.0000051110983">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
          </children>
       </AnchorPane>
    </children>

@@ -67,7 +67,7 @@ public class FrameController {
     void reset(MouseEvent event) {
         pcText.setText("");
         irText.setText("");
-        acText.setText("");
+        acText.setText("0000");
         memoryPosition = 100;
         dataPosition = 900;
         startButton.setDisable(false);
@@ -77,6 +77,11 @@ public class FrameController {
         memoryAddButton.setDisable(false);
         fetchButton.setDisable(true);
         executeButton.setDisable(true);
+        currentPos = 0;
+        memoryPane.getChildren().clear();
+        memoryList.clear();
+        dataPane.getChildren().clear();
+        dataList.clear();
     }
 
     @FXML
@@ -116,33 +121,62 @@ public class FrameController {
         try {
             pcText.setText(String.valueOf(memoryList.get(currentPos + 1).address));
         }catch (Exception e){
-            e.printStackTrace();
+            System.err.println("ERROR at line 119");
         }switch (String.valueOf(memoryList.get(currentPos).value).charAt(0)){
+
             case '1':
-                acText.setText("0" + String.valueOf(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1))));
+                for (Struct struct : dataList) {
+                    if (struct.address == (Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)))){
+                        acText.setText(String.valueOf(struct.value));
+                        break;
+                    }
+                }
                 break;
+
             case '2':
+                boolean flag = false;
                 for (int i = 0; i < dataPane.getChildren().size(); i++) {
                     if (dataList.get(0).address == Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1))){
                         dataPane.getChildren().remove(i);
                         dataPane.getChildren().add(pane(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)), Integer.valueOf(acText.getText())));
                         dataList.remove(i);
                         dataList.add(new Struct(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)), Integer.valueOf(acText.getText())));
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag){
+                    dataPane.getChildren().add(pane(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)), Integer.valueOf(acText.getText())));
+                    dataList.add(new Struct(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)), Integer.valueOf(acText.getText())));
+                }
+                break;
+
+            case '3':
+                acText.setText("0000");
+                break;
+
+            case '4':
+                for (Struct struct : dataList) {
+                    if (struct.address == (Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)))){
+                        acText.setText(String.valueOf(Integer.valueOf(acText.getText()) - struct.value));
                         break;
                     }
                 }
                 break;
-            case '3':
-                break;
-            case '4':
-                break;
-            case '5':
-                acText.setText(String.valueOf(Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)) + Integer.valueOf(acText.getText())));
-                break;
 
+            case '5':
+                for (Struct struct : dataList) {
+                    if (struct.address == (Integer.valueOf(String.valueOf(memoryList.get(currentPos).value).substring(1)))){
+                        acText.setText(String.valueOf(Integer.valueOf(acText.getText()) + struct.value));
+                        break;
+                    }
+                }
+                break;
 
         }
 
+        if (currentPos == memoryList.size()-1)
+            fetchButton.setDisable(true);
         currentPos++;
     }
 
@@ -152,6 +186,7 @@ public class FrameController {
             if (memoryAddTextField.getText().length() == 4) {
                 memoryPane.getChildren().add(pane(memoryPosition, Integer.valueOf(memoryAddTextField.getText())));
                 memoryList.add(new Struct(memoryPosition, Integer.valueOf(memoryAddTextField.getText())));
+                memoryAddTextField.setText("");
                 memoryPosition++;
             }
         }catch (Exception e){
@@ -167,6 +202,7 @@ public class FrameController {
                 dataPane.getChildren().add(pane(dataPosition, Integer.valueOf(dataAddTextField.getText())));
                 dataList.add(new Struct(dataPosition, Integer.valueOf(dataAddTextField.getText())));
                 dataPosition++;
+                dataAddTextField.setText("");
             }
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Your value can't contain non-numerical symbols");
@@ -199,7 +235,7 @@ class Struct{
     int address;
     int value;
 
-    public Struct(int address, int value) {
+    Struct(int address, int value) {
         this.address = address;
         this.value = value;
     }
