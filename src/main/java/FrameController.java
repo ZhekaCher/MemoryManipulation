@@ -9,60 +9,45 @@ import javafx.scene.text.Text;
 
 import javax.swing.*;
 import java.util.ArrayList;
-
 public class FrameController {
-
     @FXML
     private TextField memoryAddTextField;
-
     @FXML
     private TextField dataAddTextField;
-
     @FXML
     private Button dataAddButton;
-
     @FXML
     private Button memoryAddButton;
-
     @FXML
     private FlowPane  memoryPane;
-
     @FXML
     private FlowPane dataPane;
-
     @FXML
     private Button fetchButton;
-
     @FXML
     private Button executeButton;
-
     @FXML
     private Button startButton;
-
     @FXML
     private Text pcText;
-
     @FXML
     private Text irText;
-
     @FXML
     private Text acText;
-
-
-
     private int memoryPosition = 100;
     private int dataPosition = 900;
     private ArrayList <Struct> memoryList = new ArrayList();
     private ArrayList <Struct> dataList = new ArrayList();
     private int currentPos = 0;
-
     @FXML
     void initialize() {
         fetchButton.setDisable(true);
         executeButton.setDisable(true);
         acText.setText("0000");
+        executeButton.setOnAction(event -> {
+            //Activities
+        });
     }
-
     @FXML
     void reset(MouseEvent event) {
         pcText.setText("");
@@ -83,7 +68,6 @@ public class FrameController {
         dataPane.getChildren().clear();
         dataList.clear();
     }
-
     @FXML
     void start(MouseEvent event) {
         startButton.setDisable(true);
@@ -96,7 +80,6 @@ public class FrameController {
         fetchButton.setDisable(false);
         executeButton.setDisable(true);
     }
-
     @FXML
     void fetch(MouseEvent event) {
         fetchButton.setDisable(true);
@@ -113,7 +96,6 @@ public class FrameController {
         });
         */
     }
-
     @FXML
     void execute(MouseEvent event) {
         executeButton.setDisable(true);
@@ -179,7 +161,6 @@ public class FrameController {
             fetchButton.setDisable(true);
         currentPos++;
     }
-
     @FXML
     void addMemory(MouseEvent event) {
         try {
@@ -193,8 +174,6 @@ public class FrameController {
             JOptionPane.showMessageDialog(null, "Your command can't contain non-numerical symbols");
         }
     }
-
-
     @FXML
     void addData(MouseEvent event) {
         try {
@@ -208,8 +187,6 @@ public class FrameController {
             JOptionPane.showMessageDialog(null, "Your value can't contain non-numerical symbols");
         }
     }
-
-
     AnchorPane pane(int address, int value){
         AnchorPane anchorPane = new AnchorPane();
         anchorPane.setPrefHeight(55);
